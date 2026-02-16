@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button default-href="/tabs/tab1" />
+          <ion-back-button default-href="/app/tabs/tab1" />
           <ion-buttons slot="end">
           <ion-button fill="clear" @click="toggleFav">
               <ion-icon :icon="isFav ? heart : heartOutline" />
@@ -29,6 +29,16 @@
 
       <h2 class="title">Producto #{{ id }}</h2>
       <div class="price">99 €</div>
+      <div class="actions">
+       <ion-button expand="block" class="buyBtn" @click="buyNow">
+          Comprar ahora
+        </ion-button>
+
+        <ion-button expand="block" class="btn" @click="contactSeller">
+          Contactar vendedor
+        </ion-button>
+
+      </div>
 
       <p class="desc">
         Descripción del producto (placeholder). Aquí irá la info real.
@@ -51,8 +61,10 @@ import {
   IonButton,
   IonButtons,
   IonBackButton,
+  IonIcon,
+  
 } from '@ionic/vue'
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -79,6 +91,16 @@ const isFav = computed(() => favs.value.includes(pid))
 function toggleFav() {
   favs.value = toggleFavorite(pid)
 }
+const router = useRouter()
+
+function buyNow() {
+  router.replace(`/app/checkout/${pid}`)
+}
+
+function contactSeller() {
+  router.push(`/app/chat/seller-1?product=${id}`)
+}
+
 
 </script>
 

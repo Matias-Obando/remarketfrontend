@@ -6,20 +6,19 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="ion-padding">
-      <!-- Tarjeta usuario -->
-      <ion-card class="profileCard">
-        <ion-card-content class="profileRow">
-          <div class="avatar">
-            <ion-icon :icon="person" />
+    <ion-content class="ion-padding profile-content">
+      <!-- Cabecera perfil -->
+      <div class="profile-hero">
+        <div class="profile-card">
+          <div class="hero-avatar">
+            <img src="https://i.pravatar.cc/160?img=11" alt="Foto de perfil" />
           </div>
 
-          <div class="info">
-            <h2 class="name">{{ name }}</h2>
-            <p class="email">{{ email }}</p>
-          </div>
-        </ion-card-content>
-      </ion-card>
+          <div class="hero-name">{{ name }}</div>
+          <div class="hero-stars">★★★★☆</div>
+          <div class="hero-email">{{ email }}</div>
+        </div>
+      </div>
 
       <!-- Opciones -->
       <ion-list inset>
@@ -39,15 +38,6 @@
         </ion-item>
       </ion-list>
 
-      <!-- Desarrollo -->
-      <ion-list-header>Desarrollo</ion-list-header>
-      <ion-list inset>
-        <ion-item>
-          <ion-label>Forzar modo “usuario nuevo”</ion-label>
-          <ion-toggle v-model="devForceLogin" />
-        </ion-item>
-      </ion-list>
-
       <!-- Cerrar sesión -->
       <ion-button expand="block" color="danger" class="logout" @click="logout">
         Cerrar sesión
@@ -63,36 +53,23 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonCard,
-  IonCardContent,
   IonIcon,
   IonList,
   IonItem,
   IonLabel,
   IonButton,
-  IonListHeader,
-  IonToggle,
 } from '@ionic/vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { person, heart, pricetag, helpCircle } from 'ionicons/icons'
+import { heart, pricetag, helpCircle } from 'ionicons/icons'
 
 const router = useRouter()
 
-// Datos fake (luego si quieres los guardamos al registrarte)
 const name = ref('Matías Obando')
 const email = ref('matias@gmail.com')
 
-// DEV: guardar preferencia
-const DEV_KEY = 'dev_force_login'
-const devForceLogin = ref(localStorage.getItem(DEV_KEY) === 'true')
-
-watch(devForceLogin, (v) => {
-  localStorage.setItem(DEV_KEY, String(v))
-})
-
 function goFavorites() {
-  router.push('/tabs/favorites')
+  router.push('app/tabs/favorites')
 }
 
 function goMyProducts() {
@@ -110,38 +87,109 @@ function logout() {
 </script>
 
 <style scoped>
-.profileCard{
-  margin-top: 10px;
+/* Mantener logout abajo del todo */
+.profile-content::part(scroll) {
+  display: flex;
+  flex-direction: column;
 }
-.profileRow{
-  display:flex;
-  align-items:center;
-  gap: 14px;
+
+/* Botón logout (más discreto) */
+.logout {
+  margin-top: auto;
+  margin-bottom: 16px;
+  height: 44px;
+  --border-radius: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  max-width: 420px;
+  width: calc(100% - 32px);
+  margin-left: auto;
+  margin-right: auto;
 }
-.avatar{
-  width: 58px;
-  height: 58px;
+
+/* ===== Cabecera estilo Figma ===== */
+.profile-hero {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 22px 0;
+}
+
+.profile-card {
+  position: relative;
+  background: #f4f4f4;
+  border-radius: 20px;
+  padding: 24px;
+  padding-right: 190px; /* espacio para el avatar a la derecha */
+  min-height: 160px;
+  max-width: 520px;
+  width: 100%;
+}
+
+.hero-avatar {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  width: 140px;
+  height: 140px;
   border-radius: 999px;
-  background: #f2f2f2;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  overflow: hidden;
+  background: #ddd;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
 }
-.avatar ion-icon{
-  font-size: 28px;
-  opacity: .6;
+
+.hero-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-.name{
-  margin: 0;
-  font-weight: 800;
+
+.hero-name {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 8px;
 }
-.email{
-  margin: 2px 0 0 0;
-  opacity: .7;
+
+.hero-stars {
+  font-size: 16px;
+  color: #f6c343;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
 }
-.logout{
-  margin-top: 16px;
-  --border-radius: 999px;
-  height: 48px;
+
+.hero-email {
+  font-size: 15px;
+  color: #777;
+}
+
+/*Móvil*/
+@media (max-width: 600px) {
+  .profile-hero {
+    margin-top: 40px;
+  }
+
+  .profile-card {
+    padding: 20px;
+    padding-top: 52px;  /* espacio para la foto arriba */
+    padding-right: 20px;
+    text-align: center;
+    max-width: 360px;
+  }
+
+  .hero-avatar {
+    top: -42px;
+    right: 50%;
+    transform: translateX(50%);
+    width: 96px;
+    height: 96px;
+  }
+
+  .hero-name {
+    font-size: 22px;
+  }
+
+  .hero-email {
+    font-size: 14px;
+  }
 }
 </style>

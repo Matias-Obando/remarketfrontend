@@ -1,36 +1,93 @@
 <template>
   <ion-page>
     <ion-content fullscreen class="splash">
-      <div class="center">
-        <ion-spinner name="crescent" />
+      <div class="wrap">
+        <!--Primero solo spinner -->
+        <ion-spinner
+          v-if="step === 0"
+          class="spinner"
+          name="crescent"
+        />
+
+        <!-- Luego logo  -->
+        <div v-else class="logoBlock">
+          <img class="logo" :src="logo" alt="ReMarket" />
+        </div>
+
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonSpinner } from '@ionic/vue'
-import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-
+import { ref, onMounted, onBeforeUnmount } from "vue"
+import { useRouter } from "vue-router"
+import { IonPage, IonContent, IonSpinner } from "@ionic/vue"
+import logo from "@/assets/Logo.png" 
 const router = useRouter()
+const step = ref(0)
+
+let t1: number | undefined
+let t2: number | undefined
 
 onMounted(() => {
-  setTimeout(() => {
-    router.replace('/login')
-  }, 900)
+  // 1) spinner solo durante 1.2s
+  t1 = window.setTimeout(() => {
+    step.value = 1
+  }, 1200)
+
+  // 2) logo tiempo 1.0s redirige a login
+  t2 = window.setTimeout(() => {
+    router.replace("/login")
+  }, 2200)
 })
 
+onBeforeUnmount(() => {
+  if (t1) clearTimeout(t1)
+  if (t2) clearTimeout(t2)
+})
 </script>
 
 <style scoped>
 .splash {
-  --background: #5B18FE;
+  --background: #5B18FE; 
 }
-.center {
+
+.wrap {
   height: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+}
+
+
+.spinner {
+  width: 84px;
+  height: 84px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Bloque del logo con entrada suave */
+.logoBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeUp 260ms ease-out;
+}
+
+.logo {
+  width: min(240px, 70vw);
+  height: auto;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
