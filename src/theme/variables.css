@@ -5,5 +5,11 @@
   --ion-color-primary-contrast-rgb: 255,255,255;
 }
 
+/*Fondo blanco para todo */
+ion-content {
+  --background: #ffffff !important;
+}
 
-
+body {
+  --background: #ffffff !important;
+}

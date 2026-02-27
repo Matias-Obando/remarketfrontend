@@ -2,14 +2,14 @@
   <ion-page>
     <ion-content fullscreen class="splash">
       <div class="wrap">
-        <!--Primero solo spinner -->
+        
         <ion-spinner
           v-if="step === 0"
           class="spinner"
           name="crescent"
         />
 
-        <!-- Luego logo  -->
+        
         <div v-else class="logoBlock">
           <img class="logo" :src="logo" alt="ReMarket" />
         </div>
@@ -31,12 +31,12 @@ let t1: number | undefined
 let t2: number | undefined
 
 onMounted(() => {
-  // 1) spinner solo durante 1.2s
+ 
   t1 = window.setTimeout(() => {
     step.value = 1
   }, 1200)
 
-  // 2) logo tiempo 1.0s redirige a login
+
   t2 = window.setTimeout(() => {
     router.replace("/login")
   }, 2200)
@@ -50,7 +50,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .splash {
-  --background: #5B18FE; 
+  --background: #5B18FE !important; 
 }
 
 .wrap {
@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
   color: rgba(255, 255, 255, 0.95);
 }
 
-/* Bloque del logo con entrada suave */
+
 .logoBlock {
   display: flex;
   align-items: center;

@@ -1,18 +1,17 @@
 <template>
   <ion-page>
-    <!-- ✅ SOLO añadimos una clase al ion-content para poder aplicar estilos SOLO desktop -->
     <ion-content fullscreen class="forgot-content">
-      <!-- ✅ Fondo SOLO desktop (en móvil está apagado por CSS) -->
-      <div class="bg-deco-forgot" aria-hidden="true"></div>
+      
+      <div class="bg-deco-forgot"></div>
 
-      <div class="container ion-padding forgot-card">
-        <ion-button fill="clear" class="back" @click="goLogin">
-          <ion-icon :icon="arrowBackOutline" />
-        </ion-button>
+      <ion-button fill="clear" class="back" @click="goLogin">
+        <ion-icon :icon="arrowBackOutline" />
+      </ion-button>
 
+      <div class="container forgot-card">
         <h1 class="title">Recuperar contraseña</h1>
         <p class="subtitle">
-          Introduce tu correo y te enviaremos un código (simulado).
+          Introduce tu correo y te enviaremos un codigo de verificación.
         </p>
 
         <ion-item class="pill" lines="none">
@@ -20,7 +19,7 @@
           <ion-input v-model="email" type="email" placeholder="Correo" />
         </ion-item>
 
-        <ion-button expand="block" class="btn" @click="sendCode">
+        <ion-button class="btn" @click="sendCode">
           Enviar
         </ion-button>
       </div>
@@ -46,72 +45,123 @@ function goLogin() {
 function sendCode() {
   router.replace('/verify')
 }
-
 </script>
 
 <style scoped>
-/* =========================
-   ✅ MÓVIL (NO TOCAR)
-   ========================= */
-.container{
-  min-height: 100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap: 14px;
+/*  MOVIL*/
+
+.forgot-content {
+  position: relative;
 }
-.back{
+
+/* FONDO IMAGEN MOVIL*/
+.bg-deco-forgot {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.65) 0%,
+      rgba(255,255,255,0.90) 60%,
+      #ffffff 100%
+    ),
+    url("/src/assets/imagenLogin.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  padding-top: 60px;
+}
+
+.back {
   position: absolute;
   top: 10px;
   left: 6px;
+  z-index: 10;
+  --color: #5B18FE;
 }
-.title{
-  text-align:center;
+
+.title {
+  text-align: center;
   margin: 0;
   font-weight: 800;
   font-size: 28px;
+  color: #1a1a1a;
 }
-.subtitle{
-  text-align:center;
-  opacity: .75;
+
+.subtitle {
+  text-align: center;
+  opacity: 0.75;
   margin: 0 0 10px 0;
+  color: #666;
+  font-size: 14px;
 }
-.pill{
+
+.pill {
   --background: #ffffff;
   --border-radius: 999px;
   --padding-start: 14px;
   --inner-padding-end: 14px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
 }
-.icon{
+
+:deep(.pill::part(native)) {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+:deep(.pill.ion-focused::part(native)) {
+  border-color: #5B18FE;
+  box-shadow: 0 4px 16px rgba(91, 24, 254, 0.15);
+}
+
+.icon {
   font-size: 20px;
   opacity: 0.55;
+  color: #5B18FE;
 }
-.btn{
+
+.btn {
   --border-radius: 999px;
+  --background: linear-gradient(135deg, #5B18FE 0%, #7C3AED 100%);
+  --color: #ffffff;
   height: 48px;
   margin-top: 6px;
+  font-weight: 700;
+  box-shadow: none !important;
+  --box-shadow: none;
+  width: 180px; 
+  margin-left: auto;  
+  margin-right: auto;  
+  display: block;
 }
 
-/* =========================
-   ✅ DESKTOP ONLY (SIN TOCAR MÓVIL)
-   ========================= */
-
-/* Solo para poder colocar el fondo en desktop */
-.forgot-content{
-  position: relative;
+:deep(.btn::part(native)) {
+  box-shadow: none !important;
 }
 
-/* Fondo apagado en móvil */
-.bg-deco-forgot{
-  display: none;
-}
+/* DESKTOP */
 
-/* En desktop centramos y activamos fondo + card glass */
-@media (min-width: 768px){
+@media (min-width: 768px) {
+  .forgot-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+  }
 
-  /* ✅ Centramos de verdad el contenido en desktop */
-  .forgot-content::part(scroll){
+  :deep(.forgot-content::part(scroll)) {
     height: 100%;
     min-height: 100%;
     display: flex;
@@ -120,73 +170,106 @@ function sendCode() {
     padding: 24px;
   }
 
-  /* ✅ Fondo SOLO desktop (pon aquí tu imagen de forgot) */
-  .bg-deco-forgot{
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-
-    /* Cambia la ruta si tu imagen se llama diferente */
+  /* Fondo oscuro  */
+  .bg-deco-forgot {
+    pointer-events: none;
     background-image:
       linear-gradient(180deg,
-        rgba(20,20,40,0.55) 0%,
-        rgba(20,20,40,0.78) 100%
+        rgba(20, 20, 40, 0.55) 0%,
+        rgba(20, 20, 40, 0.78) 100%
       ),
       url("/src/assets/fondocontraseña.jpg");
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 
-  /* ✅ Card glass SOLO desktop */
-  .forgot-card{
+  /* Card glass */
+  .forgot-card {
     position: relative;
     z-index: 2;
-
-    max-width: 600px;
+    max-width: 700px;
     width: 100%;
-    min-height: 520px;
-
-    background: rgba(255,255,255,0.14);
+    background: rgba(255, 255, 255, 0.14);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-
-    border-radius: 22px;
-    padding: 46px 38px;
-
-    box-shadow: 0 25px 60px rgba(0,0,0,0.22);
+    border-radius: 32px;
+    padding: 80px 60px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
   }
 
-  :deep(ion-button.btn.button-block){
-  width: 360px !important;      /* mismo ancho que login */
-  max-width: 360px !important;
-  height: 46px;                /* misma altura */
-  margin: 14px auto 0 !important;
-  display: block;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-}
+  .container {
+    min-height: auto;
+    padding: 0;
+    gap: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-  /* Texto sobre fondo oscuro */
-  .title{
+  .back {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    --padding-start: 0;
+    --padding-end: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --color: #fff;
+  }
+
+  .title {
     color: #fff;
-    font-size: 34px;
+    font-size: 42px;
+    font-weight: 900;
+    margin: 0;
+    line-height: 1.2;
+    text-align: center;
   }
-  .subtitle{
-    color: rgba(255,255,255,0.78);
+
+  .subtitle {
+    color: rgba(255, 255, 255, 0.85);
     opacity: 1;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: center;
   }
 
-  /* El input se ve mejor sobre glass */
-  .pill{
-    --background: rgba(255,255,255,0.92);
+  .pill {
+    --background: rgba(255, 255, 255, 0.95);
+    box-shadow: none;
+    --min-height: 56px;
+    --padding-start: 20px;
+    --inner-padding-end: 20px;
+    width: 100%;
+    max-width: 470px;
   }
 
-  /* La flecha atrás se ve mejor en oscuro */
-  .back{
-    color: #fff;
+  :deep(.pill::part(native)) {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .icon {
+    font-size: 22px;
+  }
+
+  :deep(.pill ion-input) {
+    font-size: 16px;
+  }
+
+  .btn {
+    height: 50px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    width: 280px;
+    max-width: 100%;
+  }
+
+  :deep(.btn::part(native)) {
+    border-radius: 999px !important;
   }
 }
 </style>

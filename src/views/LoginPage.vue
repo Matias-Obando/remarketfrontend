@@ -2,10 +2,10 @@
   <ion-page>
     <ion-content fullscreen class="login-content">
 
-      <!-- Fondo decorativo SOLO desktop -->
+      <!-- fondo -->
       <div class="bg-deco" aria-hidden="true"></div>
 
-      <!-- Caja login (en móvil ocupa, en desktop se convierte en card) -->
+      
       <div class="login-card">
 
         <h1 class="title">Bienvenido</h1>
@@ -69,7 +69,7 @@ function goForgot() {
 </script>
 
 <style scoped>
-/* Contenedor general */
+
 .login-content{
   min-height: 100%;
   display:flex;
@@ -79,7 +79,6 @@ function goForgot() {
 }
 
 
-/* Card: en móvil ocupa todo; en desktop se limita */
 .login-card{
   width: 100%;
   min-height: 100%;
@@ -89,33 +88,14 @@ function goForgot() {
   gap: 18px;
   position: relative;
   z-index: 2;
+  padding: 0 20px;
 }
 
-/* Fondo decorativo (apagado por defecto) */
-.bg-deco{
-  display:none;
-}
-
-/* ====== DESKTOP ====== */
-@media (min-width: 768px){
-  .login-card{
-    margin: auto;
-    min-height: 720px;
-    max-width: 640px;              
-    background: rgba(255,255,255,0.95);
-    border-radius: 22px;
-    padding: 34px 28px;
-    box-shadow: 0 18px 45px rgba(0,0,0,0.10);
-    backdrop-filter: blur(6px);
-  }
 
 .bg-deco{
-  display: block;                 /* fondo solo desktop */
   position: absolute;
   inset: 0;
   z-index: 1;
-
-  /* ✅ Imagen + overlay blanco (para que la card destaque) */
   background-image:
     linear-gradient(
       180deg,
@@ -124,14 +104,12 @@ function goForgot() {
       #ffffff 100%
     ),
     url("/src/assets/imagenLogin.jpg");
-
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-}
 
-/* ====== TÍTULOS (los tuyos) ====== */
+
 .title {
   text-align: center;
   margin: 0 0 8px 0;
@@ -154,7 +132,7 @@ function goForgot() {
   gap: 14px;
 }
 
-/* ====== INPUTS (lo tuyo, intacto) ====== */
+
 .pill{
   --background: transparent;
   --padding-start: 14px;
@@ -180,11 +158,20 @@ function goForgot() {
 }
 
 .btn{
-  --border-radius: 999px;
-  height: 48px;
+   --border-radius: 999px;
+    height: 46px;
+    max-width: 320px; 
+    margin: 12px auto 0;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+:deep(ion-button.btn.button-block){
+    width: 280px !important;
+    max-width: 180px !important;
 }
 
-/* Links (como ya lo tenías, pero con clases claras) */
+
+
 .links{
   display:flex;
   flex-direction:column;
@@ -206,35 +193,46 @@ function goForgot() {
   font-size: 13px;
   text-transform: none;
 }
+
+/*DESKTOP*/
 @media (min-width: 768px){
+  .login-card{
+    margin: auto;
+    min-height: 720px;
+    max-width: 640px;              
+    background: rgba(255,255,255,0.95);
+    border-radius: 22px;
+    padding: 34px 28px;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.10);
+    backdrop-filter: blur(6px);
+  }
+
   .login-content::part(scroll){
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100%;
   }
-   .btn{
-    height: 46px;            /* más bajito */
-    max-width: 480px;        /* 🔑 clave: no ocupa todo */
-    margin: 12px auto 0;     /* centrado */
+
+  .btn{
+    height: 46px;
+    max-width: 480px;
+    margin: 12px auto 0;
     font-size: 14px;
     letter-spacing: 0.5px;
   }
+
   :deep(ion-button.btn.button-block){
-    width: 320px !important;          /* el ancho que quieras */
+    width: 320px !important;
     max-width: 360px !important;
-    margin: 14px auto 0 !important;   /* centrado */
+    margin: 14px auto 0 !important;
     display: block;
   }
 
   :deep(ion-button.btn){
-    height: 46px;                      /* un pelín más alto */
+    height: 46px;
     font-size: 15px;
     letter-spacing: .5px;
   }
-
 }
-
-
-
 </style>

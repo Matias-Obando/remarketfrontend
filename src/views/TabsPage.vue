@@ -46,17 +46,16 @@ import { homeOutline, addCircleOutline, personOutline, heartOutline,chatbubbleOu
     --padding-bottom: 56px;
   }
 }
-/* TAB BAR MÓVIL */
+
 ion-tab-bar {
-  --background: #5B18FE;   /* color del fondo */
-  --color: #ffffff;       /* iconos/texto */
+  --background: #5B18FE;   
+  --color: #ffffff;       
 }
 
 ion-tab-button {
-  --color-selected: #ffffff; /* icono activo */
+  --color-selected: #ffffff; 
 }
 
-/* resaltar tab activo */
 ion-tab-button.tab-selected {
   background: rgba(255,255,255,0.15);
   border-radius: 12px;

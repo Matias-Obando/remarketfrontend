@@ -1,29 +1,28 @@
 <template>
   <ion-page>
     <ion-content fullscreen class="verify-content">
-      <!-- Fondo oscuro con textura -->
+      
       <div class="bg-deco" aria-hidden="true"></div>
 
-      <div class="container ion-padding verify-card">
-        <ion-button fill="clear" class="back" @click="goForgot">
-          <ion-icon :icon="arrowBackOutline" />
-        </ion-button>
+      <ion-button fill="clear" class="back" @click="goForgot">
+        <ion-icon :icon="arrowBackOutline" />
+      </ion-button>
 
+      <div class="container verify-card">
         <h1 class="title">Introduce el código</h1>
         <p class="subtitle">Hemos enviado un código a tu correo.</p>
 
         <ion-item class="pill" lines="none">
-          <ion-input v-model="code" inputmode="numeric" maxlength="6" placeholder="Código de 6 dígitos" />
+          <ion-input v-model="code" inputmode="numeric" :maxlength="6" placeholder="Código de 6 dígitos" />
         </ion-item>
 
-        <ion-button expand="block" class="btn" @click="verifyCode">
+        <ion-button class="btn" @click="verifyCode">
           Verificar
         </ion-button>
       </div>
     </ion-content>
   </ion-page>
 </template>
-
 
 <script setup lang="ts">
 import {
@@ -62,148 +61,217 @@ async function verifyCode(){
 }
 </script>
 
-
 <style scoped>
-/* =========================
-   ✅ MÓVIL (IGUAL QUE FORGOT)
-   ========================= */
+/* MOVIL*/
 
-.container{
-  min-height: 100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap: 14px;
+.verify-content {
+  position: relative;
 }
 
-.back{
+.bg-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.65) 0%,
+      rgba(255,255,255,0.90) 60%,
+      #ffffff 100%
+    ),
+    url("/src/assets/imagenLogin.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  padding-top: 60px;
+}
+
+.back {
   position: absolute;
   top: 10px;
   left: 6px;
+  z-index: 10;
+  --color: #5B18FE;
 }
 
-.title{
-  text-align:center;
+.title {
+  text-align: center;
   margin: 0;
   font-weight: 800;
   font-size: 28px;
+  color: #1a1a1a;
 }
 
-.subtitle{
-  text-align:center;
-  opacity: .75;
+.subtitle {
+  text-align: center;
+  opacity: 0.75;
   margin: 0 0 10px 0;
+  color: #666;
+  font-size: 14px;
 }
 
-/* pill igual que forgot */
-.pill{
+.pill {
   --background: #ffffff;
   --border-radius: 999px;
   --padding-start: 14px;
   --inner-padding-end: 14px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
 }
 
-.btn{
+:deep(.pill::part(native)) {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+:deep(.pill.ion-focused::part(native)) {
+  border-color: #5B18FE;
+  box-shadow: 0 4px 16px rgba(91, 24, 254, 0.15);
+}
+
+.btn {
   --border-radius: 999px;
+  --background: linear-gradient(135deg, #5B18FE 0%, #7C3AED 100%);
+  --color: #ffffff;
   height: 48px;
   margin-top: 6px;
+  font-weight: 700;
+  box-shadow: none !important;
+  --box-shadow: none;
+  width: 180px;
+  margin-left: auto;  
+  margin-right: auto;  
+  display: block;  
 }
 
-/* =========================
-   ✅ DESKTOP ONLY (SIN TOCAR MÓVIL)
-   - igual que login/register
-   ========================= */
-
-/* Por defecto: apagamos fondo (móvil) */
-.bg-deco{
-  display:none;
+:deep(.btn::part(native)) {
+  box-shadow: none !important;
 }
 
-@media (min-width: 768px){
+/* DESKTOP  */
 
-  /* Centramos en desktop */
-  .verify-content::part(scroll){
+@media (min-width: 768px) {
+  .verify-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+  }
+
+  :deep(.verify-content::part(scroll)) {
     height: 100%;
     min-height: 100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 24px;
-    position: relative;
   }
 
-  /* ✅ Fondo oscuro con textura (igual que forgot) */
-  .bg-deco{
-    display:block;
-    position:absolute;
-    inset:0;
-    z-index:1;
-
-    
+  
+  .bg-deco {
     background-image:
       linear-gradient(180deg,
-        rgba(10,10,18,0.60) 0%,
-        rgba(10,10,18,0.60) 100%
+        rgba(20, 20, 40, 0.55) 0%,
+        rgba(20, 20, 40, 0.78) 100%
       ),
       url("/src/assets/fondocontraseña.jpg");
-
-    background-size: cover;
-    background-position:center;
-    background-repeat:no-repeat;
   }
-  :deep(ion-button.btn.button-block){
-  width: 360px !important;      /* mismo ancho que login */
-  max-width: 360px !important;
-  height: 46px;                /* misma altura */
-  margin: 14px auto 0 !important;
-  display: block;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-}
 
-  /* ✅ Card oscura translúcida (NO blanca) */
-  .verify-card{
+  
+  .verify-card {
     position: relative;
     z-index: 2;
-
-    max-width: 640px;
+    max-width: 700px;
     width: 100%;
-    min-height: 520px;
-
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 22px;
-    padding: 46px 32px;
-
-    box-shadow: 0 18px 45px rgba(0,0,0,0.35);
-    backdrop-filter: blur(10px);
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 32px;
+    padding: 80px 60px 120px 60px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
   }
 
-  /* ✅ Textos blancos en desktop (solo aquí) */
-  .title{
-    color: #fff;
-    font-size: 34px;
-    font-weight: 900;
-  }
-
-  .subtitle{
-    color: rgba(255,255,255,0.78);
-    opacity: 1;
-  }
-
-  /* Botón back blanco en desktop */
-  .back{
-    color: #fff;
-  }
-
-  /* Para que el contenedor no fuerce altura rara */
-  .container{
+  .container {
     min-height: auto;
+    padding: 0;
+    gap: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .back {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    --padding-start: 0;
+    --padding-end: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --color: #fff;
+  }
+
+  .title {
+    color: #fff;
+    font-size: 42px;
+    font-weight: 900;
+    margin: 0;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    opacity: 1;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .pill {
+    --background: rgba(255, 255, 255, 0.95);
+    box-shadow: none;
+    --min-height: 56px;
+    --padding-start: 20px;
+    --inner-padding-end: 20px;
+    width: 100%;
+    max-width: 460px;
+  }
+
+  :deep(.pill::part(native)) {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  :deep(.pill ion-input) {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .btn {
+    height: 50px;
+    margin: 10px 0;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    width: 280px;
+    max-width: 100%;
+  }
+
+  :deep(.btn::part(native)) {
+    border-radius: 999px !important;
   }
 }
 </style>
