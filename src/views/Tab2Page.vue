@@ -184,25 +184,34 @@ function removeImg(i: number) {
   images.value.splice(i, 1)
 }
 
+async function showToast(message: string, color: 'success' | 'warning' = 'success') {
+  const toast = await toastController.create({
+    message,
+    duration: 2000,
+    position: 'top',
+    color,
+  })
+  await toast.present()
+}
+
 async function publish() {
   if (!title.value || !price.value || !location.value || !category.value) {
-    alert('Rellena título, precio, ubicación y categoría.')
+    await showToast('Rellena título, precio, ubicación y categoría.', 'warning')
     return
   }
 
- addProduct({
-  title: title.value,
-  price: price.value,
-  location: location.value,
-  category: category.value,
-  condition: condition.value,
-  images: images.value,
-  description:""
-})
+  await addProduct({
+    title: title.value,
+    price: price.value,
+    location: location.value,
+    category: category.value,
+    condition: condition.value,
+    images: images.value,
+    description: ""
+  })
 
-  alert('¡Producto publicado correctamente!')
+  await showToast('¡Producto publicado correctamente!', 'success')
 
-  
   title.value = ''
   price.value = null
   location.value = ''

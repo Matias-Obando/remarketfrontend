@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar class="header-solid">
         <ion-buttons slot="start">
-          <ion-back-button default-href="/app/tabs/tab3" class="back-btn" />
+          <ion-back-button default-href="/app/tabs/tab3" class="back-btn" text="Atras" />
         </ion-buttons>
         <ion-title class="page-title">Mi ubicación</ion-title>
       </ion-toolbar>

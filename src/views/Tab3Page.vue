@@ -372,9 +372,9 @@ function logout() {
 }
 
 .action-btn.secondary {
-  --background: #ffffff;
-  --color: #5B18FE;
-  --border: 2px solid #5B18FE;
+  --background: linear-gradient(135deg, #5B18FE 0%, #7C3AED 100%);
+  --color: #ffffff;
+  box-shadow: 0 4px 12px rgba(91, 24, 254, 0.2);
 }
 
 
